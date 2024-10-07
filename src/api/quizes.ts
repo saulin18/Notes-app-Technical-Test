@@ -9,11 +9,11 @@ export const getQuizesRequest = async (): Promise<Quiz[]> => {
   return response.data; }
     
 
-export const createQuizeRequest = async (title: string, description: string) => {
-    const response = await authAxios.post("/quizes/", {title, description})
-    useQuizesStore.getState().addQuize(response.data);
-    return response.data;
-};
+  export const createQuizeRequest = async (quiz: { title: string; description: string }): Promise<Quiz> => {
+    const response = await authAxios.post("/quizes/create/", quiz);
+    return response.data; // Ensure this returns a Quiz type
+  };
+  
 
 export const updateQuizeRequest = async (pk: number, title: string, description: string) => {
     const response = await authAxios.put(`quizes/update/${pk}/`, {title, description})

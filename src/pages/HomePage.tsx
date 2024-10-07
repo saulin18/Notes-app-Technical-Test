@@ -22,6 +22,7 @@ const HomePage = () => {
         <li> <Link to="/quizes/" className="text-center text-xl font-bold text-primary-800">      
         Quizes
       </Link> </li>
+        
       </ul>
       
       <p className="text-center text-xl max-w-[990px] font-light text-primary-800">      

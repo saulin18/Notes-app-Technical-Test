@@ -10,6 +10,7 @@ import { QueryClient as TanstackQueryClient, QueryClientProvider,  } from "@tans
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import QuizesPage from "./pages/QuizesPage";
+import QuizCreate from "./pages/QuizCreate";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,12 @@ const router = createBrowserRouter([
       {
         path: "/quizes/",
         element: <QuizesPage />,
+      },
+      {
+        path: "/quizes/create",
+        element: <QuizCreate />,
       }
+     
     ],
     
   },
@@ -37,7 +43,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new TanstackQueryClient(); 
+export const queryClient = new TanstackQueryClient(); 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

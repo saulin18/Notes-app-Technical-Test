@@ -5,7 +5,7 @@ import { Token } from "../types-d";
 
 function logout() {
     useAuthStore.getState().logout()
-    window.location.href = '/login'
+    window.location.href = '/auth/login'
 }
 
 const baseURL = import.meta.env.VITE_BACKEND_URL
