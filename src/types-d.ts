@@ -7,7 +7,24 @@ export interface Token {
 export interface User {
     id: number;
     username: string;
-    email: string;
     password: string;
     is_admin: boolean;
+    is_active: boolean;
+}
+
+export interface Quiz {
+    id: number;
+    title: string;
+    description: string;
+    owner: number;
+    solutions: QuizSolution[];
+    winner_solution: QuizSolution;
+}
+
+export interface QuizSolution {
+    id: number;
+    quiz_id: number;
+    user_id: number;
+    content: string
+    created_at: string;
 }

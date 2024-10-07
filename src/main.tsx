@@ -13,16 +13,12 @@ import QuizesPage from "./pages/QuizesPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <HomePage />,
     children: [
       {
         path: "/update/:pk",
         element: <div>Update</div>,
-      },
-      {
-        path: "/quizes/create",
-        element: <div>siuu</div>,
       },
       {
         path: "/quizes/",

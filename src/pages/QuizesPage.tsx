@@ -1,8 +1,9 @@
+import QuizesList from "../components/QuizesList"
 
 
 function QuizesPage() {
   return (
-    <div>QuizesPage</div>
+      <QuizesList />
   )
 }
 

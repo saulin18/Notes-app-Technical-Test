@@ -1,23 +1,38 @@
+import { useQuizesStore } from '../store/quizes';
+import { getQuizesRequest } from '../api/quizes';
+import Loader from '../components/Loader';
+import QuizItem from '../components/QuizItem';
+import { Quiz } from '../types-d';
+import { useQuery, } from '@tanstack/react-query';
 
 
+const QuizList: React.FC = () => {
+  const { quizes } = useQuizesStore();
 
-
-function QuizesList() {
-  
-  
-  return (
+  const { isLoading, error, data } = useQuery<Quiz[], Error>({
+   queryKey: ['quizes'],
+    queryFn: getQuizesRequest,
     
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold text-primary-800 items-center justify-center">
-        Quizes
-      </h1>
-      <div className="flex flex-col items-center justify-center">
-        <button className="bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create</button>
-        <button className="bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update</button>
-      </div>
-    </div>
-        
-  )
-}
+});
 
-export default QuizesList
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <p>Error al cargar los quizzes: {error.message}</p>;
+  }
+
+const quizzesToMap = data as Quiz[] || quizes
+
+  return (
+    <div>
+      {quizzesToMap.map((quiz: Quiz) => (
+        <QuizItem key={quiz.id} quiz={quiz} />
+      ))}
+    </div>
+  );
+};
+
+export default QuizList;
+
