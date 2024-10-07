@@ -1,10 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+__pycache__/
+migrations/
+__init__.py
 .env
 db.sqlite3
-static/
-media/
-.idea/
-.venv/
-backend/core/**/__pycache__/
-**/__pycache__/
-**/migrations/
-__init__.py
