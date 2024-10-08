@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import QuizesPage from "./pages/QuizesPage";
 import QuizCreate from "./pages/QuizCreate";
+import CreateSolution from "./pages/CreateSolution";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +29,11 @@ const router = createBrowserRouter([
       {
         path: "/quizes/create",
         element: <QuizCreate />,
+      },
+      {
+        path: "/quizes/solutions/:id",
+        element: <CreateSolution />,
       }
-     
     ],
     
   },

@@ -41,7 +41,7 @@ const Register = () => {
     }
   });
 
-  if (isAuth) return <Navigate to="/" />;
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ const Register = () => {
     
   };
 
-
+  if (isAuth) return <Navigate to="/" />;
   return (
     <>
     <h3 className="flex bg-[#c1d7ff] py-10 flex-col text-center text-3xl font-bold

@@ -21,24 +21,31 @@ export const authAxios = axios.create({
 
 
 authAxios.interceptors.request.use(async (config) => {
-    const token: string = useAuthStore.getState().access;
+    const accessToken: string = useAuthStore.getState().access;
+    const refreshToken: string = useAuthStore.getState().refresh;
+
+    
     config.headers = {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${accessToken}`,
     } as AxiosRequestHeaders;
 
-    const tokenDecoded: Token = jwtDecode(token); 
-
-    const expiration = new Date(tokenDecoded.exp * 1000);
+   
+    const tokenDecoded: Token = jwtDecode(accessToken);
+    const expiration = new Date(tokenDecoded.exp * 1000 - 1000 * 60 * 10);
     const now = new Date();
-    const fiveMin = 1000 * 60 * 5; 
+    const tenMinutes = 1000 * 60 * 10;
 
-    if (expiration.getTime() - now.getTime() < fiveMin) { 
+    
+    if (expiration.getTime() - now.getTime() < tenMinutes) {
         try {
-            const response = await axi.post('/auth/refresh/', {refresh: tokenDecoded.refresh})
-            useAuthStore.getState().setToken(response.data.access, response.data.refresh)
+            const response = await axi.post('/auth/refresh/', { refresh: refreshToken });
+            
+            useAuthStore.getState().setToken(response.data.access, response.data.refresh);
         } catch (err) {
-            logout()
+            console.error("Error al refrescar el token:", err);
+            logout();
         }
     }
+
     return config;
 });

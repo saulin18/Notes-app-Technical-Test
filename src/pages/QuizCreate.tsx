@@ -4,6 +4,7 @@ import { createQuizeRequest } from '../api/quizes';
 import { toast } from 'sonner';
 import { queryClient } from '../main';
 
+
 const QuizCreate = () => {
   const navigate = useNavigate();
 
@@ -20,6 +21,7 @@ const QuizCreate = () => {
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const quiz = {
@@ -27,6 +29,7 @@ const QuizCreate = () => {
       description: formData.get('description') as string,
     };
     createMutation.mutate(quiz);
+    console.log(quiz)
   };
 
   return (

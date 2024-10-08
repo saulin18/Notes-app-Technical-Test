@@ -11,7 +11,7 @@ export const getQuizesRequest = async (): Promise<Quiz[]> => {
 
   export const createQuizeRequest = async (quiz: { title: string; description: string }): Promise<Quiz> => {
     const response = await authAxios.post("/quizes/create/", quiz);
-    return response.data; // Ensure this returns a Quiz type
+    return response.data; 
   };
   
 

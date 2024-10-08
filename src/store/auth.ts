@@ -22,7 +22,7 @@ export const useAuthStore = create(
                 set(() => ({
                     access,
                     refresh,
-                    isAuth: !!access && !!refresh,
+                    isAuth: true
                 })),
                 logout: () => set(() => ({ access: '', refresh: '', isAuth: false })),
         }),
