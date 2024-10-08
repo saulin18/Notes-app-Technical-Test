@@ -18,7 +18,7 @@ export interface Quiz {
     description: string;
     owner: number;
     solutions: QuizSolution[];
-    winner_solution: QuizSolution;
+    winner_solution: number;
 }
 
 export interface QuizSolution {
