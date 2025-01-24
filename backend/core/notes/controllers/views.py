@@ -52,17 +52,16 @@ class NoteViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=["put"], url_path="archive")
-    def archive(self, request, pk=None):
+    def archive(self, request, pk):
         note = NoteService.get_note_by_id(pk)
         NoteService.archive_note(note)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["post"], url_path="add-category")
-    def add_category_to_note(self, request, pk=None):
-        note = self.get_object()
-        category_id = request.data.get("category_id")
+    def add_category_to_note(self, request, pk, category_id):
+        note = NoteService.get_note_by_id(pk)
         try:
-            category = Category.objects.get(pk=category_id)
+            category = NoteService.get_category_by_id(category_id)
         except Category.DoesNotExist:
             return Response(
                 {"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND
@@ -70,25 +69,24 @@ class NoteViewSet(viewsets.ModelViewSet):
         note.categories.add(category)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=["post"], url_path="remove-category")
-    def remove_category_from_note(self, request, pk=None):
-        note = self.get_object()
-        category_id = request.data.get("category_id")
+    @action(detail=True, methods=["delete"], url_path="remove-category")
+    def remove_category_from_note(self, request, pk, category_id):
+        note = NoteService.get_note_by_id(pk)
         try:
-            category = Category.objects.get(pk=category_id)
+             category = NoteService.get_category_by_id(category_id)
         except Category.DoesNotExist:
             return Response(
                 {"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND
             )
         note.categories.remove(category)
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
     @action(detail=False, methods=["get"], url_path="category-list")
     def get_all_categories(self, request):
         categories = NoteService.get_all_categories()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
-    
+
     @action(detail=False, methods=["post"], url_path="category-create")
     def create_category(self, request):
         serializer = CategorySerializer(data=request.data)
@@ -101,4 +99,3 @@ class NoteViewSet(viewsets.ModelViewSet):
     def delete_category(self, request, pk):
         NoteService.delete_category(pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
-
