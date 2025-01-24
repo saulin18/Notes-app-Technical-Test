@@ -1,0 +1,10 @@
+.env
+db.sqlite3
+static/
+media/
+.idea/
+.venv/
+backend/core/**/__pycache__/
+**/__pycache__/
+**/migrations/
+__init__.py
