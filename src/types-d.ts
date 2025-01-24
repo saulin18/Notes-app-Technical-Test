@@ -1,30 +1,15 @@
-export interface Token {
-    access: string;
-    refresh: string;
-    exp: number;
-}
 
-export interface User {
-    id: number;
-    username: string;
-    password: string;
-    is_admin: boolean;
-    is_active: boolean;
-}
-
-export interface Quiz {
+export interface Note {
     id: number;
     title: string;
-    description: string;
-    owner: number;
-    solutions: QuizSolution[];
-    winner_solution: number;
+    content: string;
+    is_archived: boolean;
+    created_at: string;
+    updated_at: string;
+    categories: Category[];
 }
 
-export interface QuizSolution {
+export interface Category {
     id: number;
-    quiz_id: number;
-    user_id: number;
-    content: string
-    created_at: string;
+    name: string;
 }

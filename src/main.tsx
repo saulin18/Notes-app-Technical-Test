@@ -1,17 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import HomePage from "./pages/HomePage";
-import { QueryClient as TanstackQueryClient, QueryClientProvider,  } from "@tanstack/react-query";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import QuizesPage from "./pages/QuizesPage";
-import QuizCreate from "./pages/QuizCreate";
-import CreateSolution from "./pages/CreateSolution";
+import {
+  QueryClient as TanstackQueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -19,39 +14,22 @@ const router = createBrowserRouter([
     element: <HomePage />,
     children: [
       {
-        path: "/update/:pk",
+        path: "/notes/update/:pk",
         element: <div>Update</div>,
       },
       {
-        path: "/quizes/",
-        element: <QuizesPage />,
+        path: "/notes/delete/:pk",
+        element: <div>Archive</div>,
       },
-      {
-        path: "/quizes/create",
-        element: <QuizCreate />,
-      },
-      {
-        path: "/quizes/solutions/:id",
-        element: <CreateSolution />,
-      }
     ],
-    
-  },
-    {
-    path: "/auth/login",
-    element: <Login />,
-  },
-  {
-    path: "/auth/register",
-    element: <Register />,
   },
 ]);
 
-export const queryClient = new TanstackQueryClient(); 
+export const queryClient = new TanstackQueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}> 
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>
