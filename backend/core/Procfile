@@ -1,0 +1,2 @@
+web: gunicorn core.wsgi --log-file - --workers 2
+release: python manage.py migrate && python manage.py collectstatic --noinput

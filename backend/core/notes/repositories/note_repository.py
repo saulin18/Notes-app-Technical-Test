@@ -35,3 +35,20 @@ class NoteRepository:
         category = Category.objects.get(id=category_id)
         note.categories.remove(category)
         note.save()
+        
+    @staticmethod
+    def archive_note(note_instance):
+        note_instance.is_archived = True
+        note_instance.save()    
+     
+    @staticmethod
+    def get_all_categories():
+        return Category.objects.all()
+    
+    @staticmethod
+    def create_category(name):
+        return Category.objects.create(name=name)
+    
+    @staticmethod
+    def delete_category(category_id):
+        Category.objects.filter(id=category_id).delete()
