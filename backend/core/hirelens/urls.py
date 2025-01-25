@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from notes.controllers.views import NoteViewSet
 from django.contrib import admin
+from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'notes', NoteViewSet)
@@ -18,3 +20,5 @@ urlpatterns = [
         NoteViewSet.remove_category_from_note
     ),
 ]  
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
