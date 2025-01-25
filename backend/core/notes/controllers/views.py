@@ -14,16 +14,22 @@ class NoteViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["put"], url_path="update")
     def update_note(self, request, id):
         try:
-            serializer = self.get_serializer(data=request.data)
+            note = self.get_object()
+            serializer = self.get_serializer(instance=note, data=request.data)
+
             if serializer.is_valid():
+                validated_data = serializer.validated_data.copy()
+
+                categories = validated_data.pop("categories", [])
+
                 NoteService.update_note(
-                    note_id=id,
-                    title=serializer.validated_data.get("title"),
-                    content=serializer.validated_data.get("content"),
-                    categories=serializer.validated_data.get("categories", []),
+                    note_id=note.id, categories=categories, **validated_data
                 )
+
                 return Response(serializer.data)
+
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
@@ -43,7 +49,9 @@ class NoteViewSet(viewsets.ModelViewSet):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=True, methods=["post"], url_path="add-category/(?P<category_id>[^/.]+)")
+    @action(
+        detail=True, methods=["post"], url_path="add-category/(?P<category_id>[^/.]+)"
+    )
     def add_category_to_note(self, request, id, category_id):
         try:
             NoteService.add_category_to_note(id, category_id)
@@ -51,7 +59,11 @@ class NoteViewSet(viewsets.ModelViewSet):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=True, methods=["delete"], url_path="remove-category/(?P<category_id>[^/.]+)")
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="remove-category/(?P<category_id>[^/.]+)",
+    )
     def remove_category_from_note(self, request, id, category_id):
         try:
             NoteService.remove_category_from_note(id, category_id)
@@ -69,7 +81,7 @@ class NoteViewSet(viewsets.ModelViewSet):
     def create_category(self, request):
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
-            NoteService.create_category(serializer.validated_data['name'])
+            NoteService.create_category(serializer.validated_data["name"])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,25 +98,28 @@ class NoteViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             category_ids = request.data.get("categories", [])
-            
-           
-            existing_categories = Category.objects.filter(id__in=category_ids, is_deleted=False)
-            
+
+            existing_categories = Category.objects.filter(
+                id__in=category_ids, is_deleted=False
+            )
+
             if len(existing_categories) != len(category_ids):
-                invalid_ids = set(category_ids) - {cat.id for cat in existing_categories}
+                invalid_ids = set(category_ids) - {
+                    cat.id for cat in existing_categories
+                }
                 return Response(
                     {"error": f"Categories not found or deleted: {invalid_ids}"},
-                    status=status.HTTP_404_NOT_FOUND
+                    status=status.HTTP_404_NOT_FOUND,
                 )
-        
+
             note = NoteService.create_note(
                 title=serializer.validated_data["title"],
                 content=serializer.validated_data["content"],
-                categories=[cat.id for cat in existing_categories]
+                categories=[cat.id for cat in existing_categories],
             )
-            
+
             return Response(NoteSerializer(note).data, status=status.HTTP_201_CREATED)
-        
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=["put"], url_path="unarchive")
