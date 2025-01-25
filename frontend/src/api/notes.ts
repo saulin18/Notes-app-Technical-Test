@@ -26,7 +26,10 @@ export const updateNoteRequest = async (
   id: number,
   data: Partial<Note>
 ): Promise<Note> => {
-  const response = await axi.put(`/notes/update/${id}/`, data);
+  if (!data.title || !data.content) {
+    throw new Error("Title and content are required");
+  }
+  const response = await axi.put(`/notes/${id}/update/`, data);
   return response.data;
 };
 
@@ -46,6 +49,10 @@ export const getArchivedNotesRequest: QueryFunction<Note[]> = async () => {
 
 export const archiveNoteRequest = async (id: number) => {
   await axi.put(`/notes/${id}/archive/`);
+};
+
+export const unarchiveNoteRequest = async (id: number) => {
+  await axi.put(`/notes/${id}/unarchive/`);
 };
 
 export const addCategoryToNoteRequest = async (noteId: number, categoryId: number) => {

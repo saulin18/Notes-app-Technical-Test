@@ -1,6 +1,7 @@
 from notes.models import Category, Note
 from notes.repositories.note_repository import NoteRepository
 
+
 class NoteService:
     @staticmethod
     def get_note_by_id(note_id: int) -> Note:
@@ -21,8 +22,19 @@ class NoteService:
         return NoteRepository.create_note(title, content, categories)
 
     @staticmethod
-    def update_note(note_id: int, **kwargs):
-        return NoteRepository.update_note(note_id, **kwargs)
+    def update_note(note_id: int, **kwargs) -> Note:
+        note = NoteRepository.get_note_by_id(note_id)
+
+        categories = kwargs.pop("categories", None)
+
+        for key, value in kwargs.items():
+            setattr(note, key, value)
+        note.save()
+
+        if categories is not None:
+            note.categories.set(categories)
+
+        return note
 
     @staticmethod
     def delete_note(note_id: int):
