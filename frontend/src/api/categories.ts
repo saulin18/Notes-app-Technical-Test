@@ -1,6 +1,6 @@
 import { QueryFunction } from "@tanstack/react-query";
 import { Category } from "../types-d";
-import { authAxios, axi } from "./useAxios";
+import { axi } from "./useAxios";
 
 export const getCategoriesRequest: QueryFunction<Category[]> = async () => {
     try {
