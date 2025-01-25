@@ -4,7 +4,6 @@ import { Note } from "../types-d";
 
 
  export const getNotesRequest: QueryFunction<Note[]> = async () => {
-  debugger
   try {
     const response = await axi.get("/notes/");
     return Array.isArray(response.data) ? response.data : [];
@@ -19,7 +18,7 @@ export const createNoteRequest = async (data: {
   content: string;
   categories?: number[];
 }): Promise<Note> => {
-  const response = await authAxios.post("/notes/create/", data);
+  const response = await axi.post("/notes/create/", data);
   return response.data;
 };
 
@@ -32,7 +31,7 @@ export const updateNoteRequest = async (
 };
 
 export const deleteNoteRequest = async (id: number) => {
-  await authAxios.delete(`/notes/delete/${id}/`);
+  await axi.put(`/notes/${id}/delete/`);
 };
 
 export const getActiveNotesRequest: QueryFunction<Note[]> = async () => {
@@ -49,18 +48,10 @@ export const archiveNoteRequest = async (id: number) => {
   await authAxios.put(`/notes/${id}/archive/`);
 };
 
-export const addCategoryToNoteRequest = async (
-  noteId: number,
-  categoryId: number
-) => {
-  await authAxios.post(`/notes/add-category-to-note/${noteId}/${categoryId}/`);
+export const addCategoryToNoteRequest = async (noteId: number, categoryId: number) => {
+  await axi.post(`/notes/${noteId}/add-category/${categoryId}/`);
 };
 
-export const removeCategoryFromNoteRequest = async (
-  noteId: number,
-  categoryId: number
-) => {
-  await authAxios.delete(
-    `/notes/remove-category-from-note/${noteId}/${categoryId}/`
-  );
+export const removeCategoryFromNoteRequest = async (noteId: number, categoryId: number) => {
+  await axi.delete(`/notes/${noteId}/remove-category/${categoryId}/`);
 };

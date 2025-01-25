@@ -15,6 +15,7 @@ export function NoteList({ notes }: NoteListProps) {
           content={note.content}
           isArchived={note.is_archived}
           categories={note.categories}
+          id={note.id}
         />
       ))}
     </div>

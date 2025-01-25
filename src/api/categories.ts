@@ -1,17 +1,22 @@
 import { QueryFunction } from "@tanstack/react-query";
 import { Category } from "../types-d";
-import { authAxios } from "./useAxios";
+import { authAxios, axi } from "./useAxios";
 
 export const getCategoriesRequest: QueryFunction<Category[]> = async () => {
-    const response = await authAxios.get("/notes/category-list/");
-    return response.data;
+    try {
+      const response = await axi.get("/notes/category-list/");
+      return Array.isArray(response.data) ? response.data : [];
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
   };
   
   export const createCategoryRequest = async (name: string): Promise<Category> => {
-    const response = await authAxios.post("/notes/category-create/", { name });
+    const response = await axi.post("/notes/category-create/", { name });
     return response.data;
   };
   
   export const deleteCategoryRequest = async (id: number) => {
-    await authAxios.delete(`/notes/category-delete/${id}/`);
+    await axi.put(`/notes/${id}/category-delete/`);
   };
