@@ -23,12 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 __pycache__/
-migrations/
-__init__.py
 .env
 __pycache__/
-__init__.py
-migrations/
 db.sqlite3
 db.sqlite3
 .vite/
