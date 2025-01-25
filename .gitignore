@@ -33,3 +33,4 @@ db.sqlite3
 db.sqlite3
 .vite/
 .venv
+staticfiles/
