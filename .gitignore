@@ -25,6 +25,14 @@ dist-ssr
 __pycache__/
 .env
 
-db.sqlite3
+
 db.sqlite3
 staticfiles/
+=======
+__pycache__/
+db.sqlite3
+db.sqlite3
+.vite/
+.venv
+staticfiles/
+

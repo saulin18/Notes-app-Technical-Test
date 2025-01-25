@@ -1,5 +1,5 @@
 import { QueryFunction } from "@tanstack/react-query";
-import { authAxios, axi } from "./useAxios";
+import { axi } from "./useAxios";
 import { Note } from "../types-d";
 
 
@@ -26,7 +26,7 @@ export const updateNoteRequest = async (
   id: number,
   data: Partial<Note>
 ): Promise<Note> => {
-  const response = await authAxios.put(`/notes/update/${id}/`, data);
+  const response = await axi.put(`/notes/update/${id}/`, data);
   return response.data;
 };
 
@@ -35,17 +35,17 @@ export const deleteNoteRequest = async (id: number) => {
 };
 
 export const getActiveNotesRequest: QueryFunction<Note[]> = async () => {
-  const response = await authAxios.get("/notes/active/");
+  const response = await axi.get("/notes/active/");
   return response.data;
 };
 
 export const getArchivedNotesRequest: QueryFunction<Note[]> = async () => {
-  const response = await authAxios.get("/notes/inactive/");
+  const response = await axi.get("/notes/inactive/");
   return response.data;
 };
 
 export const archiveNoteRequest = async (id: number) => {
-  await authAxios.put(`/notes/${id}/archive/`);
+  await axi.put(`/notes/${id}/archive/`);
 };
 
 export const addCategoryToNoteRequest = async (noteId: number, categoryId: number) => {
