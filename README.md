@@ -145,3 +145,5 @@ Backend: <https://sondon-6b36f4.onrender.com>
 
 ### The default user is created with the credentials of "saul" and "12345"
 
+### Please note: Slower response times may occur as this site uses Render's free hosting tier. Thank you for your patience during initial load.
+
