@@ -17,3 +17,8 @@ export interface Category {
     name: string;
     is_deleted: boolean;
 }
+
+export interface User {
+    username: string;
+    password: string;
+  }

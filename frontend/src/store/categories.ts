@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Category } from "../types-d";
+import { Category } from "../types/types-d";
 
 type State = {
     categories: Category[];

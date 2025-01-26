@@ -7,22 +7,16 @@ import {
   QueryClient as TanstackQueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-
+import LoginPage from "./pages/LoginPage";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <HomePage />,
-    children: [
-      {
-        path: "/notes/update/:pk",
-        element: <div>Update</div>,
-      },
-      {
-        path: "/notes/delete/:pk",
-        element: <div>Archive</div>,
-      },
-    ],
+  },
+  {
+    path: "auth/login",
+    element: <LoginPage />,
   },
 ]);
 

@@ -126,14 +126,14 @@ class NoteViewSet(viewsets.ModelViewSet):
         except ValueError as e:
             return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
-
     @action(detail=False, methods=["get"], url_path="filter-by-category")
     def filter_notes_by_category(self, request):
-        category_id = request.query_params.get("category_id")
-        if category_id:
-            queryset = self.get_queryset().filter(categories__id=category_id)
-        else:
-            queryset = self.get_queryset()
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        try:
+            category_id = request.query_params.get("category_id")
+            notes = NoteService.get_notes_by_category(
+                category_id=int(category_id) if category_id else None
+            )
+            serializer = self.get_serializer(notes, many=True)
+            return Response(serializer.data)
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

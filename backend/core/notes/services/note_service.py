@@ -1,8 +1,14 @@
 from notes.models import Category, Note
 from notes.repositories.note_repository import NoteRepository
 
-
 class NoteService:
+
+    @staticmethod
+    def get_notes_by_category(category_id: int = None):
+        if category_id:
+            return NoteRepository.get_notes_by_category(category_id)
+        return NoteRepository.get_all_notes()
+
     @staticmethod
     def get_note_by_id(note_id: int) -> Note:
         return NoteRepository.get_note_by_id(note_id)
@@ -24,7 +30,6 @@ class NoteService:
     @staticmethod
     def update_note(note_id: int, **kwargs) -> Note:
         note = NoteRepository.get_note_by_id(note_id)
-
         categories = kwargs.pop("categories", None)
 
         for key, value in kwargs.items():
@@ -50,10 +55,7 @@ class NoteService:
         note.is_archived = False
         note.save()
 
-    @staticmethod
-    def get_category_by_id(category_id: int) -> Category:
-        return NoteRepository.get_category_by_id(category_id)
-
+   
     @staticmethod
     def get_all_categories():
         return NoteRepository.get_all_categories()

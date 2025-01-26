@@ -1,4 +1,4 @@
-// components/AddCategoryModal.tsx
+
 interface Category {
     id: number;
     name: string;
