@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Outlet } from "react-router";
 import { createNoteRequest, getNotesRequest } from "../api/notes";
 import { createCategoryRequest, deleteCategoryRequest, getCategoriesRequest } from "../api/categories";
-import { Category, Note } from "../types-d";
+import { Category } from "../types-d";
 import { useNotesStore } from "../store/notes";
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
@@ -15,17 +15,19 @@ import { PageHeader } from "../components/PageHeader";
 import { CreateNoteModal } from "../components/CreateNoteModal";
 
 const HomePage = () => {
-  const { notes, setNotes } = useNotesStore();
+  const { notes, setNotes, selectedCategory, setSelectedCategory } = useNotesStore();
   const { categories, setCategories } = useCategoriesStore();
 
-  // Fetch notes
+
+
+
   const {
     isLoading: isLoadingNotes,
     error: notesError,
     data: notesData = [],
-  } = useQuery<Note[], Error>({
-    queryKey: ["notes"],
-    queryFn: getNotesRequest,
+  } = useQuery({
+    queryKey: ["notes", selectedCategory] as const,
+    queryFn: ({ queryKey }) => getNotesRequest(queryKey),
     staleTime: 60 * 1000,
     refetchOnWindowFocus: false,
   });
@@ -115,11 +117,28 @@ const HomePage = () => {
 
   return (
     <>
-     <main className="flex flex-col items-center gap-3 justify-center h-auto w-full bg-[#c1d7ff] pt-10">
+      <main className="flex flex-col items-center gap-3 justify-center h-auto w-full bg-[#c1d7ff] pt-10">
         <div className="w-full max-w-6xl">
           <div className="py-8 px-6">
             <PageHeader onOpenCreateNote={() => setIsOpen(true)} />
             
+          
+            <div className="mb-6 flex gap-4 items-center">
+              <span className="text-gray-600">Filter by category:</span>
+              <select 
+                className="border rounded-lg px-4 py-2"
+                value={selectedCategory || ""}
+                onChange={(e) => setSelectedCategory(Number(e.target.value) || null)}
+              >
+                <option value="">All categories</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <CategoryManager
               categoriesData={categoriesData}
               newCategoryName={newCategoryName}

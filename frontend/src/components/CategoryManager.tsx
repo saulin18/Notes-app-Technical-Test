@@ -1,5 +1,4 @@
 import { Category } from "../types-d";
-import { CategoryItem } from "../components/CategoryItem";
 import Loader from "../components/Loader";
 
 interface CategoryManagerProps {

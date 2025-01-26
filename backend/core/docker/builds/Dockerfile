@@ -1,5 +1,5 @@
 # Usar imagen oficial de Python 3.12
-FROM python:3.12-slim-bookworm
+FROM python:3.11:11-slim-bookworm
 
 # Configurar variables de entorno
 ENV PYTHONUNBUFFERED=1 \
