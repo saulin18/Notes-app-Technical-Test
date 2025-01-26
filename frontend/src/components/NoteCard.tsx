@@ -14,6 +14,7 @@ import { useState } from "react";
 import { EditNoteModal } from "./EditNoteModal";
 import { AddCategoryModal } from "./AddCategoryModal";
 import { DeleteIcon } from "./DeleteIcon";
+import { PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 
 interface NoteCardProps {
   title: string;
@@ -122,70 +123,81 @@ export function NoteCard({
   );
 
   return (
-    <div className="bg-white relative w-full h-[200px] rounded-lg shadow-lg p-6 text-gray-800 transition-all duration-200 hover:shadow-xl ">
-      <DeleteIcon
-        className="absolute top-2 right-2 size-5 cursor-pointer text-red-500 hover:text-red-700"
-        onClick={handleDeleteNote}
-      />
+    <div className="bg-white relative rounded-xl shadow-md p-4 md:p-6 text-gray-800 transition-all duration-200 hover:shadow-lg group">
+  <div className="absolute top-3 right-3 flex gap-2">
+    <DeleteIcon
+      className="size-6 md:size-5 cursor-pointer text-red-500 hover:text-red-700 transition-colors"
+      onClick={handleDeleteNote}
+    />
 
+    <button
+      onClick={() =>
+        isArchived ? unarchiveMutation.mutate(id) : archiveMutation.mutate(id)
+      }
+      className="text-sm px-2 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-600 hover:text-gray-800"
+    >
+      {isArchived ? "Unarchive" : "Archive"}
+    </button>
+  </div>
+
+  <div className="mb-4 relative">
+    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">{title}</h3>
+    {isArchived && (
+      <span className="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">
+        Archived
+      </span>
+    )}
+  </div>
+
+  <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4 line-clamp-3">
+    {content}
+  </p>
+
+  <div className="flex flex-col gap-4 justify-between items-start md:items-center">
+    <CategoryList
+      categories={categoriesList}
+      onRemove={handleRemoveCategory}
+
+    />
+    
+    <div className="flex gap-2 w-full md:w-auto">
       <button
-        onClick={() =>
-          isArchived ? unarchiveMutation.mutate(id) : archiveMutation.mutate(id)
-        }
-        className="absolute top-2 right-10 text-sm px-2 py-1 rounded bg-gray-200 hover:bg-gray-300"
+        onClick={() => setShowAddModal(true)}
+        className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors flex items-center justify-center flex-1"
       >
-        {isArchived ? "Unarchive" : "Archive"}
+        <PlusIcon className="size-4 mr-2" />
+        Category
       </button>
-
-      <div className="relative mb-4">
-        <h3 className="text-xl font-bold">{title}</h3>
-        {isArchived && (
-          <span className="absolute bottom-7 left-0 bg-gray-700 text-gray-200 px-2 rounded-full text-xs font-semibold">
-            Archived
-          </span>
-        )}
-      </div>
-
-      <p className="text-gray-600 text-sm line-clamp-3 mb-2">{content}</p>
-
-      <div className="flex justify-between items-center">
-        <CategoryList
-          categories={categoriesList}
-          onRemove={handleRemoveCategory}
-        />
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="px-3 py-1 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600"
-        >
-          Add Category
-        </button>
-
-        <button
-          onClick={() => setShowEditModal(true)}
-          className="px-3 py-1 text-sm bg-green-500 text-white rounded-full hover:bg-green-600"
-        >
-          Edit
-        </button>
-      </div>
-
-      {showAddModal && (
-        <AddCategoryModal
-          isOpen={showAddModal}
-          onClose={() => setShowAddModal(false)}
-          availableCategories={availableCategories}
-          onSelectCategory={handleAddCategory}
-        />
-      )}
-      {showEditModal && (
-        <EditNoteModal
-          isOpen={showEditModal}
-          onClose={() => setShowEditModal(false)}
-          initialTitle={title}
-          initialContent={content}
-          onSubmit={handleUpdateNote}
-          isSubmitting={updateMutation.isPending}
-        />
-      )}
+      
+      <button
+        onClick={() => setShowEditModal(true)}
+        className="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-700 text-white rounded-full transition-colors flex items-center justify-center flex-1"
+      >
+        <PencilIcon className="size-4 mr-2" />
+        Edit
+      </button>
     </div>
+  </div>
+
+  {showAddModal && (
+    <AddCategoryModal
+      isOpen={showAddModal}
+      onClose={() => setShowAddModal(false)}
+      availableCategories={availableCategories}
+      onSelectCategory={handleAddCategory}
+    />
+  )}
+  
+  {showEditModal && (
+    <EditNoteModal
+      isOpen={showEditModal}
+      onClose={() => setShowEditModal(false)}
+      initialTitle={title}
+      initialContent={content}
+      onSubmit={handleUpdateNote}
+      isSubmitting={updateMutation.isPending}
+    />
+  )}
+</div>
   );
 }

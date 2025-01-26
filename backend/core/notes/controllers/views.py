@@ -20,11 +20,7 @@ class NoteViewSet(viewsets.ModelViewSet):
             if serializer.is_valid():
                 validated_data = serializer.validated_data.copy()
 
-                categories = validated_data.pop("categories", [])
-
-                NoteService.update_note(
-                    note_id=note.id, categories=categories, **validated_data
-                )
+                NoteService.update_note(note_id=note.id, **validated_data)
 
                 return Response(serializer.data)
 
