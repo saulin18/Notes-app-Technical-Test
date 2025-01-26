@@ -115,7 +115,9 @@ Backend: <https://sondon-6b36f4.onrender.com>
 |-----------------------------------------------|----------|-------------------------------|--------------------------------|--------------------------------------------|----------------------|
 | `/api/notes/`                                 | `GET`    | List all notes                | -                              | -                                          | List of notes        |
 | `/api/notes/create/`                          | `POST`   | Create new note               | -                              | `{title: string, content: string, categories: number[]}` | Created note         |
+
 | `/api/notes/{id}/update/`                     | `PUT`    | Update note                   | `id: number`                   | `{title?: string, content?: string}` | Updated note         |
+
 | `/api/notes/{id}/delete/`                     | `PUT`    | Soft delete note              | `id: number`                   | -                                          | 204 No Content       |
 | `/api/notes/{id}/archive/`                    | `PUT`    | Archive note                  | `id: number`                   | -                                          | 204 No Content       |
 | `/api/notes/{id}/unarchive/`                  | `PUT`    | Unarchive note                | `id: number`                   | -                                          | 204 No Content       |
@@ -133,6 +135,7 @@ Backend: <https://sondon-6b36f4.onrender.com>
 | `/api/notes/category-create/`     | `POST`   | Create new category           | -                | `{name: string}`     | Created category     |
 | `/api/notes/{id}/category-delete/`| `PUT`    | Delete category               | `id: number`     | -                    | 204 No Content       |
 
+
 ### I added a login screen with the following endpoints
 
 | Endpoint                                      | Method   | Description                   | Parameters                     | Request Body                                | Response             |
@@ -141,3 +144,4 @@ Backend: <https://sondon-6b36f4.onrender.com>
 | `/api/users/login/`                           | `POST`   | Login user                    | -                              | `{username: string, password: string}` | Successful login     |
 
 ### The default user is created with the credentials of "saul" and "12345"
+

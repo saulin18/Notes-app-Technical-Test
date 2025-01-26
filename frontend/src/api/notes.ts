@@ -1,6 +1,8 @@
 
+
 import { axi } from "./axiosInstance";
 import { Note } from "../types/types-d";
+
 
 export const getNotesRequest = async (
   categoryId?: number | null
