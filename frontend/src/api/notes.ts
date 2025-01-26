@@ -1,4 +1,4 @@
-import { QueryFunction } from "@tanstack/react-query";
+
 import { axi } from "./useAxios";
 import { Note } from "../types-d";
 
