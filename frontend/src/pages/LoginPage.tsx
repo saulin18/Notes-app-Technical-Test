@@ -2,15 +2,17 @@ import { useForm, FieldError } from "react-hook-form";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { User } from "../types/types-d";
-import { axi } from "../api/axiosInstance";
+
 import axios from "axios";
 import { useAuthenticationStore } from "../store/users";
 
 export default function LoginPage() {
+  const { user } = useAuthenticationStore();
 
- const { user, setUser, setIsAuthenticated } = useAuthenticationStore();
+  const { setUser, setIsAuthenticated } = useAuthenticationStore();
 
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
   if (user) return <Navigate to="/" replace />;
 
@@ -19,45 +21,47 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<User>();
-  const [loginError, setLoginError] = useState("");
 
   const getCsrfToken = async () => {
-    try {
-      const response = await axi.get("/users/csrf/");
-      const cookie = response.headers["set-cookie"]
-        ?.find((c) => c.startsWith("csrftoken"))
-        ?.split(";")[0];
-      return cookie ? cookie.split("=")[1] : "";
-    } catch (error) {
-      console.error("Error getting CSRF token:", error);
-      return "";
-    }
+    const response = await axios.get(
+      "https://sondon-6b36f4.onrender.com/api/users/csrf/",
+      { withCredentials: true }
+    );
+    return response.data.csrfToken;
   };
 
   const handleLogin = async (data: User) => {
     try {
+      // 1. Obtener el token primero
       const csrfToken = await getCsrfToken();
 
-      const response = await axi.post("/users/login/", data, {
-        headers: {
-          "X-CSRFToken": csrfToken,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-      setIsAuthenticated(true);
-      setUser(data);
+      // 2. Usar el valor del token en los headers
+      const response = await axios.post(
+        "https://sondon-6b36f4.onrender.com/api/users/login/",
+        data,
+        {
+          headers: {
+            "X-CSRFToken": csrfToken, // <-- Usar la variable aquí
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
+      // 3. Manejar respuesta exitosa
       if (response.status === 200) {
-        navigate("/", { replace: true });
+        setIsAuthenticated(true);
+        setUser(response.data.user);
+        navigate("/");
       }
     } catch (error) {
+      // 4. Manejar errores
       if (axios.isAxiosError(error)) {
         setLoginError(
-          error.response?.data?.message || "Login failed. Please try again."
+          error.response?.data?.message || "Error de autenticación"
         );
       } else {
-        setLoginError("An unexpected error occurred");
+        setLoginError("Error desconocido");
       }
     }
   };
