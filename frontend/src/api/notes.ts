@@ -1,4 +1,4 @@
-import { QueryFunction } from "@tanstack/react-query";
+
 import { axi } from "./useAxios";
 import { Note } from "../types-d";
 
@@ -41,15 +41,6 @@ export const deleteNoteRequest = async (id: number) => {
   await axi.put(`/notes/${id}/delete/`);
 };
 
-export const getActiveNotesRequest: QueryFunction<Note[]> = async () => {
-  const response = await axi.get("/notes/active/");
-  return response.data;
-};
-
-export const getArchivedNotesRequest: QueryFunction<Note[]> = async () => {
-  const response = await axi.get("/notes/inactive/");
-  return response.data;
-};
 
 export const archiveNoteRequest = async (id: number) => {
   await axi.put(`/notes/${id}/archive/`);
