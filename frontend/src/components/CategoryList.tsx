@@ -8,7 +8,7 @@ interface CategoryListProps {
 
 export function CategoryList({ categories, onRemove }: CategoryListProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap flex-col gap-1">
       {categories.map((category) => (
         <CategoryItem
           key={category.id}
