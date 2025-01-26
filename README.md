@@ -133,7 +133,7 @@ Backend: <https://sondon-6b36f4.onrender.com>
 | `/api/notes/category-create/`     | `POST`   | Create new category           | -                | `{name: string}`     | Created category     |
 | `/api/notes/{id}/category-delete/`| `PUT`    | Delete category               | `id: number`     | -                    | 204 No Content       |
 
-### I added login screen with the following endpoints
+### I added a login screen with the following endpoints
 
 | Endpoint                                      | Method   | Description                   | Parameters                     | Request Body                                | Response             |
 |-----------------------------------------------|----------|-------------------------------|--------------------------------|--------------------------------------------|----------------------|
