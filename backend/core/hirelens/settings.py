@@ -46,17 +46,20 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "need-to-set-secret-key")
 
 # Application definition
 
+AUTH_USER_MODEL = "users.User"
+
+
 INSTALLED_APPS = [
-    "users.apps.UsersConfig",
-    "notes.apps.NotesConfig",
-    "corsheaders",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "rest_framework",
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', 
+    'corsheaders',
+    'rest_framework',
+    'users.apps.UsersConfig',  
+    'notes.apps.NotesConfig',
+    'django.contrib.admin'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "users.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
