@@ -1,4 +1,4 @@
-import { Category } from "../types-d";
+import { Category } from "../types/types-d";
 import { CategoryItem } from "./CategoryItem";
 
 interface CategoryListProps {

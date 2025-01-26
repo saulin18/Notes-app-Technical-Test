@@ -1,4 +1,4 @@
-import { Note } from "../types-d";
+import { Note } from "../types/types-d";
 import { NoteCard } from "./NoteCard";
 
 

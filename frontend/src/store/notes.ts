@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Note } from "../types-d";
+import { Note } from "../types/types-d";
 
 type State = {
     notes: Note[];
@@ -35,4 +35,3 @@ export const useNotesStore = create(
         }
     )
 );
-

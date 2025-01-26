@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from notes.models import Note, Category
 
 class NoteRepository:
+    # Métodos básicos para notas
     @staticmethod
     def get_note_by_id(note_id: int) -> Note:
         try:
@@ -10,12 +11,20 @@ class NoteRepository:
             raise ValueError(f"Note with id {note_id} does not exist or is deleted")
 
     @staticmethod
+    def get_all_notes():
+        return Note.objects.filter(is_deleted=False)
+
+    @staticmethod
     def get_active_notes():
         return Note.objects.filter(is_archived=False, is_deleted=False)
 
     @staticmethod
     def get_archived_notes():
         return Note.objects.filter(is_archived=True, is_deleted=False)
+
+    @staticmethod
+    def get_notes_by_category(category_id: int):
+        return Note.objects.filter(categories__id=category_id, is_deleted=False)
 
     @staticmethod
     def create_note(title: str, content: str, categories: list[int] = None) -> Note:
@@ -44,6 +53,7 @@ class NoteRepository:
         note.is_archived = True
         note.save()
 
+    # Métodos para categorías
     @staticmethod
     def get_category_by_id(category_id: int) -> Category:
         try:

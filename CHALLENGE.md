@@ -7,7 +7,7 @@ You need to implement a simple web application that allows you to take notes, ta
 - **Phase 1**: Note creation
 - **Phase 2**: Tag application and filtering
 
-### IMPORTANT CONSIDERATIONS:
+### IMPORTANT CONSIDERATIONS
 
 - Phase 1 is mandatory to pass this exercise, while Phase 2 will provide extra points if done.
 - Content should be persisted in a relational database by using an ORM - in-memory storage or mocks are not allowed.
@@ -41,7 +41,7 @@ There is no restriction about the technology to be used, provided that:
 
 ### Phase 2
 
-#### User Stories
+ User Stories
 
 - As a user, I want to be able to add/remove categories to notes.
 - As a user, I want to be able to filter notes by category.
@@ -50,4 +50,3 @@ There is no restriction about the technology to be used, provided that:
 
 - **Login**: If you provide a login screen, document the default user/password in `README.md`.
 - **Live deployed version**: If you deploy the app (e.g., via Heroku), add the URL of the live running version to `README.md`.
-

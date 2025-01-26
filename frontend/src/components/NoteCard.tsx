@@ -8,7 +8,7 @@ import {
   updateNoteRequest,
 } from "../api/notes";
 import { useCategoriesStore } from "../store/categories";
-import { Category } from "../types-d";
+import { Category } from "../types/types-d";
 import { CategoryList } from "./CategoryList";
 import { useState } from "react";
 import { EditNoteModal } from "./EditNoteModal";

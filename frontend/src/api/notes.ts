@@ -1,16 +1,15 @@
 
-import { axi } from "./useAxios";
-import { Note } from "../types-d";
+import { axi } from "./axiosInstance";
+import { Note } from "../types/types-d";
 
 export const getNotesRequest = async (
-  queryKey: readonly ["notes", number | null] 
+  categoryId?: number | null
 ): Promise<Note[]> => {
-  const categoryId = queryKey[1];
   try {
     const response = await axi.get("/notes/filter-by-category/", {
       params: { category_id: categoryId }
     });
-    return Array.isArray(response.data) ? response.data : [];
+    return response.data || [];
   } catch (error) {
     console.error("Error fetching notes:", error);
     return [];
