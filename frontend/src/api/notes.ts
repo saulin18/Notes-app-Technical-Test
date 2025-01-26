@@ -2,10 +2,14 @@ import { QueryFunction } from "@tanstack/react-query";
 import { axi } from "./useAxios";
 import { Note } from "../types-d";
 
-
- export const getNotesRequest: QueryFunction<Note[]> = async () => {
+export const getNotesRequest = async (
+  queryKey: readonly ["notes", number | null] 
+): Promise<Note[]> => {
+  const categoryId = queryKey[1];
   try {
-    const response = await axi.get("/notes/");
+    const response = await axi.get("/notes/filter-by-category/", {
+      params: { category_id: categoryId }
+    });
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("Error fetching notes:", error);
